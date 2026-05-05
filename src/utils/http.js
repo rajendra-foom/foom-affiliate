@@ -14,7 +14,6 @@ const fetchData = async ({
         ? { Authorization: `Bearer ${session.backendToken}` }
         : {};
 
-    // Build query string from payload.query, dropping null/undefined
     const cleanQuery = Object.fromEntries(
         Object.entries(payload.query || {}).filter(
             ([, value]) => value !== null && value !== undefined
@@ -71,7 +70,6 @@ const fetchData = async ({
 
     const json = await res.json();
 
-    // v3 endpoints wrap data in { data: ... } — unwrap automatically
     const isV3 = endpoint.startsWith("/api/v3/") || endpoint.startsWith("/v3/");
     if (isV3) {
         return json.data;
