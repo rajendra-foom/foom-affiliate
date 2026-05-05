@@ -2,7 +2,7 @@
 
 import { Box, Typography, LinearProgress } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { UNLOCK_THRESHOLD } from "@/lib/tierConfig";
+import { UNLOCK_THRESHOLD } from "@/constants/tierConfig";
 import { formatPrice} from "@/utils/string"
 
 export default function LockedState({ handler }) {

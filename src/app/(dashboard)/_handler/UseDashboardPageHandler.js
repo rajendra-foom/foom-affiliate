@@ -3,12 +3,8 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import {
-  getMyAffiliate,
-  getMyAffiliateHistory,
-  postCashout,
-} from "@/lib/affiliateApi";
-import { TIER_CONFIG, UNLOCK_THRESHOLD } from "@/lib/tierConfig";
+import { TIER_CONFIG, UNLOCK_THRESHOLD } from "@/constants/tierConfig";
+import {getData} from "@/utils/http";
 
 export function useDashboardPageHandler() {
   const { status: sessionStatus } = useSession();
@@ -25,7 +21,7 @@ export function useDashboardPageHandler() {
     error: affiliateError,
   } = useQuery({
     queryKey: ["affiliate"],
-    queryFn: () => getMyAffiliate(),
+    queryFn: () => getData({ endpoint: "/api/v3/affiliate/my-affiliate" }),
     enabled: isAuthenticated,
   });
 
@@ -40,12 +36,15 @@ export function useDashboardPageHandler() {
 
   const { data: historyData, isLoading: isHistoryLoading } = useQuery({
     queryKey: ["affiliate", "history", historyPage],
-    queryFn: () => getMyAffiliateHistory(historyPage),
+    queryFn: () => getData({
+      endpoint: "/api/v3/affiliate/my-affiliate/history",
+      payload: { query: { page: historyPage, limit: 10 } },
+    }),
     enabled: isAuthenticated && !!affiliateData?.isAffiliate,
   });
 
   const cashoutMutation = useMutation({
-    mutationFn: () => postCashout(),
+    mutationFn: () => postData({ endpoint: "/api/v3/affiliate/my-affiliate/cashout" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["affiliate"] });
       queryClient.invalidateQueries({ queryKey: ["affiliate", "history"] });

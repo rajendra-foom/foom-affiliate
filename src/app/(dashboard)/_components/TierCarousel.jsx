@@ -6,7 +6,7 @@ import StarIcon from "@mui/icons-material/Star";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { TIER_CONFIG } from "@/lib/tierConfig";
+import { TIER_CONFIG } from "@/constants/tierConfig";
 import {formatPrice} from "@/utils/string";
 
 export default function TierCarousel({ handler }) {
