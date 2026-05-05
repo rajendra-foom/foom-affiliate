@@ -3,11 +3,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function AuthenticateRootPage() {
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        router.push("/authenticate/login-required");
-    }, [router]);
+  useEffect(() => {
+    router.push("/authenticate/login-required");
+  }, [router]);
 
-    return null;
+  return null;
 }
