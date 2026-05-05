@@ -2,7 +2,8 @@
 
 import { Box, Typography, LinearProgress } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { formatRupiah, UNLOCK_THRESHOLD } from "@/lib/tierConfig";
+import { UNLOCK_THRESHOLD } from "@/lib/tierConfig";
+import { formatPrice} from "@/utils/string"
 
 export default function LockedState({ handler }) {
     console.log("LockedState rendered, handler.isAffiliate:", handler.isAffiliate);
@@ -46,7 +47,7 @@ export default function LockedState({ handler }) {
         >
           Belanjakan total{" "}
           <Box component="span" sx={{ fontWeight: 700, color: "#1a1a1a" }}>
-            {formatRupiah(UNLOCK_THRESHOLD)}
+            {formatPrice(UNLOCK_THRESHOLD)}
           </Box>{" "}
           pada transaksi selesai untuk membuka kode affiliate dan mulai
           mendapatkan komisi.
@@ -61,7 +62,7 @@ export default function LockedState({ handler }) {
             <Typography
               sx={{ fontSize: 13, fontWeight: 700, color: "#C0392B" }}
             >
-              {formatRupiah(totalSpend)} / {formatRupiah(UNLOCK_THRESHOLD)}
+              {formatPrice(totalSpend)} / {formatPrice(UNLOCK_THRESHOLD)}
             </Typography>
           </Box>
 
@@ -85,7 +86,7 @@ export default function LockedState({ handler }) {
               {unlockProgress}% tercapai
             </Typography>
             <Typography sx={{ fontSize: 12, color: "#bbb" }}>
-              {formatRupiah(unlockRemaining)} lagi
+              {formatPrice(unlockRemaining)} lagi
             </Typography>
           </Box>
         </Box>
@@ -101,7 +102,7 @@ export default function LockedState({ handler }) {
             color: "#C0392B",
           }}
         >
-          {formatRupiah(unlockRemaining)} lagi untuk buka fitur affiliator
+          {formatPrice(unlockRemaining)} lagi untuk buka fitur affiliator
         </Box>
       </Box>
 

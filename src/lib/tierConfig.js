@@ -28,27 +28,8 @@ export const TIER_CONFIG = [
   },
 ];
 
-// Must match backend business rule
 export const UNLOCK_THRESHOLD = 110_000;
 
 export function getTierIndex(tierKey) {
   return TIER_CONFIG.findIndex((t) => t.key === tierKey?.toLowerCase());
-}
-
-export function formatRupiah(value) {
-  if (value == null) return "—";
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-export function formatDate(dateStr) {
-  if (!dateStr) return "—";
-  return new Intl.DateTimeFormat("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(dateStr));
 }

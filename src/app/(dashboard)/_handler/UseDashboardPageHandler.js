@@ -11,71 +11,58 @@ import {
 import { TIER_CONFIG, UNLOCK_THRESHOLD } from "@/lib/tierConfig";
 
 export function useDashboardPageHandler() {
-  const { data: session, status: sessionStatus } = useSession();
-  const token = session?.backendToken;
+  const { status: sessionStatus } = useSession();
+  const isAuthenticated = sessionStatus === "authenticated";
   const queryClient = useQueryClient();
 
   const [carouselIndex, setCarouselIndex] = useState(null);
+  const [historyPage, setHistoryPage] = useState(1);
 
   const {
     data: affiliateData,
     isLoading: isAffiliateLoading,
-      fetchStatus,
+    fetchStatus,
     error: affiliateError,
   } = useQuery({
     queryKey: ["affiliate"],
-    queryFn: () => getMyAffiliate(token),
-    enabled: !!token,
-    select: (res) => res.data,
+    queryFn: () => getMyAffiliate(),
+    enabled: isAuthenticated,
   });
-
-  console.log("affiliateData:", affiliateData);
 
   useEffect(() => {
     if (carouselIndex === null && affiliateData?.isAffiliate) {
       const idx = TIER_CONFIG.findIndex(
-        (t) => t.key === affiliateData.tier?.toLowerCase(),
+          (t) => t.key === affiliateData.tier?.toLowerCase()
       );
       setCarouselIndex(Math.max(0, idx));
     }
   }, [affiliateData, carouselIndex]);
 
-  const [historyPage, setHistoryPage] = useState(1);
-
   const { data: historyData, isLoading: isHistoryLoading } = useQuery({
     queryKey: ["affiliate", "history", historyPage],
-    queryFn: () => getMyAffiliateHistory(token, historyPage),
-    enabled: !!token && !!affiliateData?.isAffiliate,
-    select: (res) => res.data,  // now res.data = { list, pagination }
+    queryFn: () => getMyAffiliateHistory(historyPage),
+    enabled: isAuthenticated && !!affiliateData?.isAffiliate,
   });
 
-  function handleNextPage() {
-    setHistoryPage((p) => p + 1);
-  }
-
-  function handlePrevPage() {
-    setHistoryPage((p) => Math.max(1, p - 1));
-  }
-
   const cashoutMutation = useMutation({
-    mutationFn: () => postCashout(token),
+    mutationFn: () => postCashout(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["affiliate"] });
       queryClient.invalidateQueries({ queryKey: ["affiliate", "history"] });
+      setHistoryPage(1);
     },
   });
-
 
   const isAffiliate = affiliateData?.isAffiliate ?? false;
   const totalSpend = affiliateData?.totalSpend ?? 0;
   const unlockProgress = Math.min(
-    100,
-    Math.round((totalSpend / UNLOCK_THRESHOLD) * 100),
+      100,
+      Math.round((totalSpend / UNLOCK_THRESHOLD) * 100)
   );
   const unlockRemaining = Math.max(0, UNLOCK_THRESHOLD - totalSpend);
 
   const currentTierIndex = TIER_CONFIG.findIndex(
-    (t) => t.key === affiliateData?.tier?.toLowerCase(),
+      (t) => t.key === affiliateData?.tier?.toLowerCase()
   );
   const viewedTierIndex = carouselIndex ?? Math.max(0, currentTierIndex);
   const viewedTier = TIER_CONFIG[viewedTierIndex];
@@ -84,11 +71,11 @@ export function useDashboardPageHandler() {
 
   const totalVolume = affiliateData?.totalVolume ?? 0;
   const tierProgressPct = viewedTier?.next
-    ? Math.min(100, Math.round((totalVolume / viewedTier.next) * 100))
-    : 100;
+      ? Math.min(100, Math.round((totalVolume / viewedTier.next) * 100))
+      : 100;
   const tierProgressRemaining = viewedTier?.next
-    ? Math.max(0, viewedTier.next - totalVolume)
-    : 0;
+      ? Math.max(0, viewedTier.next - totalVolume)
+      : 0;
 
   const pendingAmount = affiliateData?.pendingAmount ?? 0;
 
@@ -106,6 +93,14 @@ export function useDashboardPageHandler() {
 
   function handleCashout() {
     cashoutMutation.mutate();
+  }
+
+  function handleNextPage() {
+    setHistoryPage((p) => p + 1);
+  }
+
+  function handlePrevPage() {
+    setHistoryPage((p) => Math.max(1, p - 1));
   }
 
   const [codeCopied, setCodeCopied] = useState(false);
@@ -129,7 +124,9 @@ export function useDashboardPageHandler() {
   }
 
   return {
-    isLoading: sessionStatus === "loading" || (!!token && (isAffiliateLoading || fetchStatus === "fetching")),
+    isLoading:
+        sessionStatus === "loading" ||
+        (isAuthenticated && (isAffiliateLoading || fetchStatus === "fetching")),
     isHistoryLoading,
     error: affiliateError,
 
@@ -161,6 +158,7 @@ export function useDashboardPageHandler() {
     historyPage,
     handleNextPage,
     handlePrevPage,
+
     pendingAmount,
 
     isCashingOut: cashoutMutation.isPending,

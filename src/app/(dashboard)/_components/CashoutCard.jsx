@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography, Button } from "@mui/material";
-import { formatRupiah } from "@/lib/tierConfig";
+import { formatPrice } from "@/utils/string.js";
 
 export default function CashoutCard({ handler }) {
   const { pendingAmount, isCashingOut, cashoutSuccess, handleCashout } =
@@ -30,7 +30,7 @@ export default function CashoutCard({ handler }) {
               color: hasAmount ? "#1a1a1a" : "#ccc",
             }}
           >
-            {formatRupiah(pendingAmount)}
+            {formatPrice(pendingAmount)}
           </Typography>
         </Box>
 

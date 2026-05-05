@@ -1,6 +1,6 @@
 import { Poppins } from "next/font/google";
-import NextAuthProvider from "@/app/(dashboard)/components/NextAuthProvider";
-import QueryProvider from "@/app/(dashboard)/components/QueryProvider";
+import NextAuthProvider from "@/app/(dashboard)/_components/NextAuthProvider";
+import QueryProvider from "@/app/(dashboard)/_components/QueryProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",

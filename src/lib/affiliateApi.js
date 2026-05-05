@@ -1,32 +1,13 @@
-const BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { getData, postData } from "@/utils/http";
 
-async function apiFetch(path, token, options = {}) {
-  const res = await fetch(`${BASE}/api/v3/affiliate${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-      ...(options.headers ?? {}),
-    },
-  });
+export const getMyAffiliate = () =>
+    getData({ endpoint: "/api/v3/affiliate/my-affiliate" });
 
-  const json = await res.json();
+export const getMyAffiliateHistory = (page = 1, limit = 10) =>
+    getData({
+      endpoint: "/api/v3/affiliate/my-affiliate/history",
+      payload: { query: { page, limit } },
+    });
 
-  if (!res.ok) {
-    throw new Error(json?.message ?? `Request failed: ${res.status}`);
-  }
-
-  return json;
-}
-
-export async function getMyAffiliate(token) {
-  return apiFetch("/my-affiliate", token);
-}
-
-export async function getMyAffiliateHistory(token, page = 1) {
-  return apiFetch(`/my-affiliate/history?page=${page}&limit=10`, token);
-}
-
-export async function postCashout(token) {
-  return apiFetch("/my-affiliate/cashout", token, { method: "POST" });
-}
+export const postCashout = () =>
+    postData({ endpoint: "/api/v3/affiliate/my-affiliate/cashout" });

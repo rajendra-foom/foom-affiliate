@@ -2,11 +2,11 @@
 
 import { Box, Typography, Skeleton } from "@mui/material";
 import {useDashboardPageHandler} from "@/app/(dashboard)/_handler/UseDashboardPageHandler"
-import LockedState from "@/app/(dashboard)/components/LockedState";
-import TierCarousel from "@/app/(dashboard)/components/TierCarousel";
-import AffiliateCode from "@/app/(dashboard)/components/AffiliateCode";
-import CashoutCard from "@/app/(dashboard)/components/CashoutCard";
-import TransactionHistory from "@/app/(dashboard)/components/TransactionHistory";
+import LockedState from "@/app/(dashboard)/_components/LockedState";
+import TierCarousel from "@/app/(dashboard)/_components/TierCarousel";
+import AffiliateCode from "@/app/(dashboard)/_components/AffiliateCode";
+import CashoutCard from "@/app/(dashboard)/_components/CashoutCard";
+import TransactionHistory from "@/app/(dashboard)/_components/TransactionHistory";
 
 function PageSkeleton() {
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Typography, Skeleton, Button } from "@mui/material";
-import { formatRupiah, formatDate } from "@/lib/tierConfig";
+import { formatPrice, formatDate } from "@/utils/string.js";
 
 function HistoryItem({ item, rate }) {
     const isReady = item.status === "ready";
@@ -55,7 +55,7 @@ function HistoryItem({ item, rate }) {
                         }}
                     >
                         {isReady ? "+" : ""}
-                        {formatRupiah(benefitAmount)}
+                        {formatPrice(benefitAmount)}
                     </Typography>
                 </Box>
 
@@ -68,7 +68,7 @@ function HistoryItem({ item, rate }) {
                         textOverflow: "ellipsis",
                     }}
                 >
-                    Transaksi {formatRupiah(item.transaction_amount)} · rate {displayRate}%
+                    Transaksi {formatPrice(item.transaction_amount)} · rate {displayRate}%
                 </Typography>
 
                 {isReady && (

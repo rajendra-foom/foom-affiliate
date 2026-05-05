@@ -6,7 +6,8 @@ import StarIcon from "@mui/icons-material/Star";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { TIER_CONFIG, formatRupiah } from "@/lib/tierConfig";
+import { TIER_CONFIG } from "@/lib/tierConfig";
+import {formatPrice} from "@/utils/string";
 
 export default function TierCarousel({ handler }) {
   const {
@@ -50,7 +51,7 @@ export default function TierCarousel({ handler }) {
                     />
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                            {formatRupiah(viewedTier.min)} / {formatRupiah(viewedTier.min)}
+                            {formatPrice(viewedTier.min)} / {formatPrice(viewedTier.min)}
                         </Typography>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
                             Tercapai
@@ -85,10 +86,10 @@ export default function TierCarousel({ handler }) {
                     />
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                            {formatRupiah(totalVolume)} / {formatRupiah(viewedTier.min)}
+                            {formatPrice(totalVolume)} / {formatPrice(viewedTier.min)}
                         </Typography>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                            {formatRupiah(Math.max(0, viewedTier.min - totalVolume))} lagi
+                            {formatPrice(Math.max(0, viewedTier.min - totalVolume))} lagi
                         </Typography>
                     </Box>
                 </Box>
@@ -120,7 +121,7 @@ export default function TierCarousel({ handler }) {
                     />
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                            {formatRupiah(totalVolume)}
+                            {formatPrice(totalVolume)}
                         </Typography>
                         <Typography sx={{ fontSize: 11, color: "#bbb" }}>
                             Tidak ada batas atas
@@ -156,10 +157,10 @@ export default function TierCarousel({ handler }) {
                 />
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                     <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                        {formatRupiah(totalVolume)} / {formatRupiah(nextTier.min)}
+                        {formatPrice(totalVolume)} / {formatPrice(nextTier.min)}
                     </Typography>
                     <Typography sx={{ fontSize: 11, color: "#bbb" }}>
-                        {formatRupiah(remaining)} lagi ke {nextTier.name}
+                        {formatPrice(remaining)} lagi ke {nextTier.name}
                     </Typography>
                 </Box>
             </Box>
@@ -285,7 +286,7 @@ export default function TierCarousel({ handler }) {
               <Typography
                 sx={{ fontSize: 15, fontWeight: 700, color: "#1a1a1a" }}
               >
-                {viewedTier.min === 0 ? "—" : formatRupiah(viewedTier.min)}
+                {viewedTier.min === 0 ? "—" : formatPrice(viewedTier.min)}
               </Typography>
             </Box>
             {viewedTier.next && (
@@ -304,7 +305,7 @@ export default function TierCarousel({ handler }) {
                   <Typography
                     sx={{ fontSize: 15, fontWeight: 700, color: "#1a1a1a" }}
                   >
-                    {formatRupiah(viewedTier.next)}
+                    {formatPrice(viewedTier.next)}
                   </Typography>
                 </Box>
               </>
